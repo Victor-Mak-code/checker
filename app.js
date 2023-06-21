@@ -30,7 +30,7 @@ router.post('/checker', jsonParser, (req, res) => {
  
 })
 
-router.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// router.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
 
