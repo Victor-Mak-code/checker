@@ -3,11 +3,12 @@ const {expect} = require("@playwright/test");
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const express = require('express');
-const router = express.Router()
+const app = express()
 const port = 3000
 let jsonParser = bodyParser.json();
-router.use(cors());
-router.post('/checker', jsonParser, (req, res) => {
+app.use(cors());
+
+app.post('/checker', jsonParser, (req, res) => {
   const {email, password} = req.body;
   (async () => {
   const browser = await chromium.launch({headless: true});
@@ -20,17 +21,13 @@ router.post('/checker', jsonParser, (req, res) => {
   await expect(page.locator('//*[@id="​"]/body/div[1]/div/div/div[1]/div[2]/div/div[2]/div/div/div/div/div/div/div[2]/form/div/div/div/div[3]/div/div/div[1]/div/div[3]/div/div/div/div[2]/span')).toContainText("Incorrect email or password.").then(() => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({msg: 'Incorrect email or password'}));
-    res.status(200)
-  }).catch(() => {
-    res.send(JSON.stringify({msg: 'Success'}))
-    res.status(200);
-  })
+  }).catch(() => res.send(JSON.stringify({msg: 'Success'})))
   await page.close();
 })();
  
 })
 
-// router.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`)
-// })
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
 
