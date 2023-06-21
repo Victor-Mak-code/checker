@@ -3,12 +3,11 @@ const {expect} = require("@playwright/test");
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const express = require('express');
-const app = express()
+const router = express.Router()
 const port = 3000
 let jsonParser = bodyParser.json();
-app.use(cors());
-
-app.post('/checker', jsonParser, (req, res) => {
+router.use(cors());
+router.post('/checker', jsonParser, (req, res) => {
   const {email, password} = req.body;
   (async () => {
   const browser = await chromium.launch({headless: true});
@@ -27,7 +26,7 @@ app.post('/checker', jsonParser, (req, res) => {
  
 })
 
-app.listen(port, () => {
+router.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
