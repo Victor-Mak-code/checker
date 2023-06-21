@@ -20,7 +20,11 @@ router.post('/checker', jsonParser, (req, res) => {
   await expect(page.locator('//*[@id="​"]/body/div[1]/div/div/div[1]/div[2]/div/div[2]/div/div/div/div/div/div/div[2]/form/div/div/div/div[3]/div/div/div[1]/div/div[3]/div/div/div/div[2]/span')).toContainText("Incorrect email or password.").then(() => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({msg: 'Incorrect email or password'}));
-  }).catch(() => res.send(JSON.stringify({msg: 'Success'})))
+    res.status(200)
+  }).catch(() => {
+    res.send(JSON.stringify({msg: 'Success'}))
+    res.status(200);
+  })
   await page.close();
 })();
  
